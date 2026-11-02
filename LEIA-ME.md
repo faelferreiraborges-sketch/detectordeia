@@ -30,8 +30,17 @@ python detector_ia.py analisar meu_texto.pdf --neural --observador Qwen/Qwen2.5-
 python detector_ia.py texto < texto.txt
 
 # retreinar com os seus próprios exemplos humanos e de IA (precisa de scikit-learn)
+pip install -r requirements-treino.txt
 python detector_ia.py treinar --humano pasta_textos_humanos/ --ia pasta_textos_ia/
 ```
+
+## Versão web (Vercel)
+
+`app.py` é uma interface web em Flask: uma página para colar o texto ou enviar o arquivo, que devolve o mesmo relatório HTML. A Vercel detecta o Flask pelo `requirements.txt` e publica `app.py` sem comando de build.
+
+- Roda só o modo estatístico. O modo neural precisa de ~2 GB de modelos e continua disponível apenas na linha de comando.
+- Arquivos de até 4 MB (limite de requisição da Vercel).
+- Para testar localmente: `python app.py` e abrir http://localhost:5000.
 
 Citações diretas entre aspas (4 palavras ou mais), listas de referências e campos de formulário ficam fora da análise: não são texto do autor.
 
@@ -82,6 +91,8 @@ Validação cruzada agrupada por documento (5 dobras × 3 repetições), com 2.9
 ## Arquivos
 
 - `detector_ia.py`: o programa inteiro
+- `app.py`: interface web (Flask) usada na Vercel
+- `requirements.txt`: dependências do modo estatístico e da interface web; `requirements-treino.txt` acrescenta o scikit-learn
 - `modelo_estatistico.json`: classificador treinado, limiares e métricas
 - `referencias/`: textos de referência (ZipPy e calibração do modo neural)
 - `testes/teste_basico.py`: testes rápidos do modo estatístico
